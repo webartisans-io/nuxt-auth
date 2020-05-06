@@ -1,0 +1,44 @@
+{
+  "name": "nuxt-auth",
+  "version": "0.0.0",
+  "description": "Auth module for nuxt, to integrate Laravel ",
+  "repository": "wartisans/nuxt-auth",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Boudy de Geer <boudydegeer@mosaiqo.com>"
+    }
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/module.js",
+  "scripts": {
+    "dev": "nuxt example",
+    "lint": "eslint --ext .js,.vue .",
+    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
+    "test": "yarn lint && jest"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.10.3",
+    "@nuxtjs/dotenv": "^1.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "latest",
+    "@babel/preset-env": "latest",
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "@nuxtjs/eslint-config": "latest",
+    "@nuxtjs/module-test-utils": "latest",
+    "babel-eslint": "latest",
+    "babel-jest": "latest",
+    "eslint": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "nuxt-edge": "latest",
+    "standard-version": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
