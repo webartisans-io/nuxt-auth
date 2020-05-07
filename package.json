@@ -2,7 +2,7 @@
   "name": "@wartisans/nuxt-auth",
   "version": "0.0.6",
   "description": "Auth module for nuxt, to integrate Laravel ",
-  "repository": "wartisans/nuxt-auth",
+  "repository": "https://github.com/webartisans-es/nuxt-auth.git",
   "license": "MIT",
   "contributors": [
     {
