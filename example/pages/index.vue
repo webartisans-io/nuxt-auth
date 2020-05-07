@@ -2,52 +2,88 @@
   <div>
     <form @submit.prevent="register">
       <h3>Register</h3>
+      <div
+        v-for="error in registerForm.errors"
+        style="color:red;"
+      >
+        {{ error[0] }}
+      </div>
       <div>
         <label for="register.name">Name</label>
-      <input v-model="name" type="text" name="name" id="register.name">
+        <input id="register.name" v-model="registerForm.name" type="text" name="name">
       </div>
       <div>
         <label for="register.email">Email</label>
-        <input v-model="email" type="text" name="email" id="register.email">
+        <input id="register.email" v-model="registerForm.email" type="text" name="email">
       </div>
-      
+
       <div>
         <label for="register.password">Password</label>
-        <input v-model="password" type="text" name="password" id="register.password">
+        <input id="register.password" v-model="registerForm.password" type="text" name="password">
       </div>
-      
+
       <div>
         <label for="register.passwordConfirmation">Password Confirmation</label>
-        <input v-model="passwordConfirmation" type="text" name="passwordConfirmation" id="register.passwordConfirmation">
+        <input id="register.passwordConfirmation" v-model="registerForm.passwordConfirmation" type="text" name="passwordConfirmation">
       </div>
-      
-      <button :disabled="$auth.isLoggedIn">Register</button>
+
+      <button :disabled="isLoggedIn">
+        Register
+      </button>
     </form>
-    
+
     <form @submit.prevent="login">
       <h3>Login</h3>
+      <div
+        v-for="error in loginForm.errors"
+        style="color:red;"
+      >
+        {{ error[0] }}
+      </div>
+
       <div>
         <label for="login.email">Email</label>
-        <input v-model="email" type="text" name="email" id="login.email">
+        <input id="login.email" v-model="loginForm.email" type="text" name="email">
       </div>
-      
+
       <div>
         <label for="login.password">Password</label>
-        <input v-model="password" type="text" name="password" id="login.password">
+        <input id="login.password" v-model="loginForm.password" type="text" name="password">
       </div>
-      <button :disabled="$auth.isLoggedIn">
+      <button :disabled="isLoggedIn">
         Login
       </button>
     </form>
-    
-    
+
     <div>
       <h3>Logout</h3>
+      <div
+        v-for="error in logoutForm.errors"
+        style="color: red;"
+      >
+        {{ error[0] }}
+      </div>
       <button
+        :disabled="isGuest"
         @click="logout"
-        :disabled="!$auth.isLoggedIn"
       >
         Logout
+      </button>
+    </div>
+
+    <div>
+      <h3>Refresh Token</h3>
+      <div
+        v-for="error in logoutForm.errors"
+        style="color: red;"
+      >
+        {{ error[0] }}
+      </div>
+      <button
+        :disabled="isGuest"
+        @click="refresh"
+      >
+        Refresh
       </button>
     </div>
   </div>
@@ -56,23 +92,76 @@
 <script>
 export default {
   data: () => ({
-  	name: 'TestUser',
-  	email: 'test@user.mail',
-  	password: 'secret',
-  	passwordConfirmation: 'secret',
+	  registerForm: {
+	    errors: null,
+	    name: 'TestUser',
+	    email: 'test@user.mail',
+	    password: 'secret',
+	    passwordConfirmation: 'secret'
+    },
+	  loginForm: {
+	    errors: null,
+	    email: 'test@user.mail',
+	    password: 'secret'
+    },
+    logoutForm: {
+	    errors: null
+    },
+	  refreshForm: {
+	    errors: null
+    }
   }),
-  
+
+  computed: {
+  	isLoggedIn () {
+  		return this.$auth.isLoggedIn
+    },
+    isGuest () {
+  		return this.$auth.isGuest
+    }
+  },
+
   methods: {
   	register () {
-  		if (this.$auth.isLoggedIn) return
-      this.$auth.register(this.$data)
+  		if (this.$auth.isLoggedIn) { return }
+		  this.registerForm.errors = null
+      this.$auth.register(this.registerForm)
+        .catch((e) => {
+	        if (e.name === 'ValidationError') {
+	          this.registerForm.errors = e.getErrors()
+          }
+        })
     },
+
     login () {
-	    if (this.$auth.isLoggedIn) return
-	    this.$auth.login(this.$data)
+	    if (this.$auth.isLoggedIn) { return }
+      this.loginForm.errors = null
+	    this.$auth.login(this.loginForm)
+	    .catch((e) => {
+		    if (e.name === 'ValidationError') {
+			    this.loginForm.errors = e.getErrors()
+		    }
+	    })
     },
+
     logout () {
+	    this.logoutForm.errors = null
 	    this.$auth.logout()
+	    .catch((e) => {
+		    if (e.name === 'ValidationError') {
+			    this.logoutForm.errors = e.getErrors()
+		    }
+	    })
+    },
+
+    refresh () {
+	    this.refreshForm.errors = null
+	    this.$auth.refreshToken()
+	    .catch((e) => {
+		    if (e.name === 'ValidationError') {
+			    this.refreshForm.errors = e.getErrors()
+		    }
+	    })
     }
   }
 }

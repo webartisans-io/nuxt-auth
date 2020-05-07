@@ -1,3 +1,3 @@
 export const state = () => ({
- test: 'one'
+  test: 'one'
 })

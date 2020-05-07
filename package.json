@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-auth",
+  "name": "@wartisans/nuxt-auth",
   "version": "0.0.0",
   "description": "Auth module for nuxt, to integrate Laravel ",
   "repository": "wartisans/nuxt-auth",
