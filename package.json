@@ -1,6 +1,6 @@
 {
   "name": "@wartisans/nuxt-auth",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Auth module for nuxt, to integrate Laravel ",
   "repository": "wartisans/nuxt-auth",
   "license": "MIT",
@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "nuxt example",
     "lint": "eslint --ext .js,.vue .",
-    "release": "standard-version && git push --follow-tags && npm publish",
+    "release": "standard-version && git push --follow-tags && npm publish --access public",
     "test": "yarn lint && jest"
   },
   "dependencies": {
