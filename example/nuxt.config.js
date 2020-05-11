@@ -16,7 +16,16 @@ module.exports = {
     'cookie-universal-nuxt',
     { handler: require('../') }
   ],
-
+  
+  auth: {
+    redirects: {
+      login: '/login',
+      register: '/register',
+      home: '/',
+      dashboard: '/secret',
+    }
+  },
+  
   axios: {
     baseURL: 'https://api.webartisans.dev'
   }

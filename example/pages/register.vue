@@ -87,7 +87,6 @@ export default {
 	
 	methods: {
 		register () {
-			console.log('register')
 			if (this.$auth.isLoggedIn) { return }
 			
 			this.registerForm.errors = null
