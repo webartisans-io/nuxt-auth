@@ -1,29 +1,50 @@
 <template>
   <div>
+    
     <nuxt-link :to="{path:'/'}">Home</nuxt-link>
     <nuxt-link :to="{path:'/secret'}">Secret</nuxt-link>
     <nuxt-link :to="{path:'/login'}">Login</nuxt-link>
     <nuxt-link :to="{path:'/register'}">Register</nuxt-link>
-    
-    <h1>Welcome !</h1>
+    <div>
+      <h3>Logout</h3>
+      <div
+        v-for="error in logoutForm.errors"
+        :key="JSON.stringify(error)"
+        style="color: red;"
+      >
+        {{ error[0] }}
+      </div>
+      <button
+        :disabled="isGuest"
+        @click="logout"
+      >
+        Logout
+      </button>
+    </div>
+    <div>
+      <h3>Refresh Token</h3>
+      <div
+        v-for="error in logoutForm.errors"
+        :key="JSON.stringify(error)"
+        style="color: red;"
+      >
+        {{ error[0] }}
+      </div>
+      <button
+        :disabled="isGuest"
+        @click="refresh"
+      >
+        Refresh
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+	middleware: 'auth',
+  
   data: () => ({
-    registerForm: {
-      errors: null,
-      name: 'TestUser',
-      email: 'test@user.mail',
-      password: 'secret',
-      passwordConfirmation: 'secret'
-    },
-    loginForm: {
-      errors: null,
-      email: 'test@user.mail',
-      password: 'secret'
-    },
     logoutForm: {
       errors: null
     },
@@ -31,7 +52,6 @@ export default {
       errors: null
     }
   }),
-
   computed: {
     isLoggedIn () {
       return this.$auth.isLoggedIn
@@ -42,28 +62,6 @@ export default {
   },
 
   methods: {
-    register () {
-      if (this.$auth.isLoggedIn) { return }
-      this.registerForm.errors = null
-      this.$auth.register(this.registerForm)
-        .catch((e) => {
-          if (e.name === 'ValidationError') {
-            this.registerForm.errors = e.getErrors()
-          }
-        })
-    },
-
-    login () {
-      if (this.$auth.isLoggedIn) { return }
-      this.loginForm.errors = null
-      this.$auth.login(this.loginForm)
-        .catch((e) => {
-          if (e.name === 'ValidationError') {
-            this.loginForm.errors = e.getErrors()
-          }
-        })
-    },
-
     logout () {
       this.logoutForm.errors = null
       this.$auth.logout()

@@ -12,7 +12,8 @@ module.exports = {
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
-
+    // Simple usage
+    'cookie-universal-nuxt',
     { handler: require('../') }
   ],
 
